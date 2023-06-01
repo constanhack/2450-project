@@ -1,3 +1,5 @@
+from config import MEM, ACC, PC
+
 def Add(digits,acc):
     pass
 

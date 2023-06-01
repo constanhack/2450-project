@@ -1,14 +1,11 @@
-from memory_and_file_ops import File_Picker, Allocate_Memory
+from config import MEM, ACC, PC
+from memory_and_file_ops import File_Picker, Allocate_Memory, Get_Value
 from IO_ops import Read, Write
 from load_store_ops import Load, Store
 from arithmetic_ops import Add, Subtract, Divide, Multiply
 from control_ops import Branch, Branchneg, Branchzero, Halt
 
 
-def Get_Value(PC):
-    if PC < 10:
-        return mem[f'0{PC}']
-    return mem[f'{PC}']
 
 
 ##placeholder for opperations
@@ -69,10 +66,9 @@ def Check_for_Operation(digits):
     
 file = open(File_Picker(),'r')
 
-mem = Allocate_Memory(file)
+MEM = Allocate_Memory(file)
 
-ACC = '0000'
-PC = 0
+
 while True:
     print(Get_Value(PC))
     if len(Get_Value(PC)) != 5:

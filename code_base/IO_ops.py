@@ -1,3 +1,5 @@
+from config import MEM, ACC, PC
+
 def Read(digits):
     pass
 
