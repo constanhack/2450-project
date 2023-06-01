@@ -24,5 +24,13 @@ def File_Picker():
 
 def Get_Value(PC):
     if PC < 10:
-        return MEM[f'0{PC}']
-    return MEM[f'{PC}']
+        try:
+            return MEM[f'0{PC}']
+        except KeyError:
+            print(f'Invalid location of 0{PC}.  Closing Program')
+            exit()
+    try:
+        return MEM[f'{PC}']
+    except KeyError:
+            print(f'Invalid location of {PC}.  Closing Program')
+            exit()
