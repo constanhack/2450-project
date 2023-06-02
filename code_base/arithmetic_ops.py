@@ -1,14 +1,13 @@
-from config import MEM, ACC, PC
 from memory_and_file_ops import Get_Value
 
-def Add(digits,acc):
+def Add(act_nums,MEM,ACC):
     pass
 
-def Subtract(digits,acc):
+def Subtract(act_nums,MEM,ACC):
     pass
 
-def Divide(digits,acc):
+def Divide(act_nums,MEM,ACC):
     pass
 
-def Multiply(digits,acc):
+def Multiply(act_nums,MEM,ACC):
     pass

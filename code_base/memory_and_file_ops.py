@@ -1,9 +1,8 @@
-from config import MEM, ACC, PC
 import tkinter as tk
 from tkinter import filedialog
 
 def Allocate_Memory(file):
-    ##mem = dict()
+    MEM = dict()
     index = 0
     for line in file:
         if index < 10:
@@ -22,7 +21,7 @@ def File_Picker():
         exit()    
     return file_path
 
-def Get_Value(PC):
+def Get_Value(PC,MEM):
     if PC < 10:
         try:
             return MEM[f'0{PC}']

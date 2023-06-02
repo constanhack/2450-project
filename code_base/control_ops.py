@@ -1,13 +1,14 @@
-from config import MEM, ACC, PC
 from memory_and_file_ops import Get_Value
 
-def Branch(digits):
+def Branch(act_nums,MEM,PC):
     pass
 
-def Branchneg(digits,acc):
-    pass
+def Branchneg(act_nums,MEM,ACC,PC):
+    if ACC[0] == '-':
+        return[MEM,ACC,int(act_nums),True]
+    return [MEM,ACC,PC,False]
 
-def Branchzero(digits,acc):
+def Branchzero(act_nums,MEM,ACC,PC):
     pass
 
 def Halt():
