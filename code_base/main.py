@@ -29,12 +29,12 @@ def Check_for_Operation(digits):
         return False
     if opp_nums == 20: # Load
         print(f'Running Load')
-        #MEM, ACC = Load(act_nums,MEM,ACC)
+        MEM, ACC = Load(act_nums,MEM,ACC)
 
         return False
     if opp_nums == 21: # Store
         print(f'Running Store')
-        #MEM, ACC = Store(act_nums,MEM,ACC)
+        MEM, ACC = Store(act_nums,MEM,ACC)
 
         return False
     if opp_nums == 30: # Add
