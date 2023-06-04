@@ -19,12 +19,12 @@ def Check_for_Operation(digits):
     act_nums = digits[2:4]
     if opp_nums == 10: # Read
         print(f'Running Read')
-        #MEM = Read(act_nums,MEM)
+        MEM = Read(act_nums,MEM)
         
         return False
     if opp_nums == 11: # Write
         print(f'Running Write')
-        #MEM = Write(act_nums,MEM)
+        MEM = Write(act_nums,MEM)
 
         return False
     if opp_nums == 20: # Load
