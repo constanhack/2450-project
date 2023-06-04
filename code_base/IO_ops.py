@@ -10,3 +10,4 @@ def Write(act_nums,MEM):
     #Write a word from a specific location in memory to screen.
     word = MEM[act_nums]
     print(word)
+    return MEM

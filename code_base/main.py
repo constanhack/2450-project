@@ -83,7 +83,10 @@ def Check_for_Operation(digits):
     
 
 
-while True:
+while PC <100:
+    if Get_Value(PC,MEM) == None:
+        PC+=1
+        continue
     if len(Get_Value(PC,MEM)) != 5:
         print(f'Value {Get_Value(PC,MEM)} at address 0{PC} is an invalid length.  Shutting Down')
         exit()
