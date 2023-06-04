@@ -3,6 +3,11 @@ from tkinter import filedialog
 
 def Allocate_Memory(file):
     MEM = dict()
+    for i in range(100):
+        if i < 10:
+            MEM[f'0{i}'] = None
+        else:
+            MEM[f'{i}'] = None     
     index = 0
     for line in file:
         if index < 10:

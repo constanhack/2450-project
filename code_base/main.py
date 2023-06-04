@@ -19,22 +19,22 @@ def Check_for_Operation(digits):
     act_nums = digits[2:4]
     if opp_nums == 10: # Read
         print(f'Running Read')
-        #MEM = Read(act_nums,MEM)
+        MEM = Read(act_nums,MEM)
         
         return False
     if opp_nums == 11: # Write
         print(f'Running Write')
-        #MEM = Write(act_nums,MEM)
+        MEM = Write(act_nums,MEM)
 
         return False
     if opp_nums == 20: # Load
         print(f'Running Load')
-        #MEM, ACC = Load(act_nums,MEM,ACC)
+        MEM, ACC = Load(act_nums,MEM,ACC)
 
         return False
     if opp_nums == 21: # Store
         print(f'Running Store')
-        #MEM, ACC = Store(act_nums,MEM,ACC)
+        MEM, ACC = Store(act_nums,MEM,ACC)
 
         return False
     if opp_nums == 30: # Add
@@ -83,7 +83,10 @@ def Check_for_Operation(digits):
     
 
 
-while True:
+while PC <100:
+    if Get_Value(PC,MEM) == None:
+        PC+=1
+        continue
     if len(Get_Value(PC,MEM)) != 5:
         print(f'Value {Get_Value(PC,MEM)} at address 0{PC} is an invalid length.  Shutting Down')
         exit()
