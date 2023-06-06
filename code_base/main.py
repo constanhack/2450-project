@@ -39,22 +39,22 @@ def Check_for_Operation(digits):
         return False
     if opp_nums == 30: # Add
         print(f'Running Add')
-        #MEM, ACC = Add(act_nums,MEM,ACC)
+        MEM, ACC = Add(act_nums,MEM,ACC)
 
         return False
     if opp_nums == 31: # Subtract
         print(f'Running Subtract')
-        #MEM, ACC = Subtract(act_nums,MEM,ACC)
+        MEM, ACC = Subtract(act_nums,MEM,ACC)
 
         return False
     if opp_nums == 32: # Divide
         print(f'Running Divide')
-        #MEM, ACC = Divide(act_nums,MEM,ACC)
+        MEM, ACC = Divide(act_nums,MEM,ACC)
 
         return False
     if opp_nums == 33: # Multiply
         print(f'Running Multiply')
-        #MEM, ACC = Multiply(act_nums,MEM,ACC)
+        MEM, ACC = Multiply(act_nums,MEM,ACC)
 
         return False
     if opp_nums == 40: # Branch
