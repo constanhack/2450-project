@@ -7,7 +7,7 @@ from control_ops import Branch, BranchNeg, BranchZero, Halt
 file = open(File_Picker(),'r')
 
 MEM = Allocate_Memory(file)
-ACC = '-0000'
+ACC = '+0000'
 PC = 0
 
 
@@ -84,7 +84,7 @@ def Check_for_Operation(digits):
 
 
 while PC <100:
-    if Get_Value(PC,MEM) == None:
+    if Get_Value(PC,MEM) == '+0000':
         PC+=1
         continue
     if len(Get_Value(PC,MEM)) != 5:
