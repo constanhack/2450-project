@@ -5,9 +5,9 @@ def Allocate_Memory(file):
     MEM = dict()
     for i in range(100):
         if i < 10:
-            MEM[f'0{i}'] = None
+            MEM[f'0{i}'] = '+0000'
         else:
-            MEM[f'{i}'] = None     
+            MEM[f'{i}'] = '+0000'    
     index = 0
     for line in file:
         if index < 10:
