@@ -61,30 +61,117 @@ def test_load():
     second_MEM, second_ACC = Load('99',MEM,ACC)
     assert second_ACC == '+0000'
 
+    #Testing if SystemExit is called when MEM at location is not a string
+    int_MEM = dict()
+    int_MEM['00'] = 1
+    with pytest.raises(SystemExit):
+        Load('00',int_MEM,ACC)
+
+    #Testing if SystemExit is called when length of a string in mem is not 5
+    len_MEM = dict()
+    len_MEM['00'] = '+123'
+    with pytest.raises(SystemExit):
+        Load('00',len_MEM,ACC)
+
+    #testing if SystemExit is called when word in mem doesn't start with + or  -
+    sign_MEM = dict()
+    sign_MEM['00'] = '12345'
+    with pytest.raises(SystemExit):
+        Load('00',sign_MEM,ACC)
+
+    #Testing if SystemExit is called when word in MEM passes above systemexit calls but fails due to not being an Int
+    str_MEM = dict()
+    str_MEM['00'] = '+12W4'
+    with pytest.raises(SystemExit):
+        Load('00',str_MEM,ACC)
+
 def test_store():
     file = open('test_files/unit_tests.txt','r')
     MEM = Allocate_Memory(file)
     ACC = '+9999'
     first_MEM, first_ACC = Store('00',MEM,ACC)
+
+    #Testing if the returned ACC is a string
+    assert type(first_ACC) == str 
+
+    #Testing if original ACC equal to the value at location '00'
     assert first_MEM['00'] == ACC
+
+    #Testing if the returned ACC and original ACC are the same
     assert first_ACC == ACC
+
+    #Testing if SystemExit is called when ACC is not a string
+    int_ACC = 12345
+    with pytest.raises(SystemExit):
+        Store('00',MEM,int_ACC)
+
+    #Testing if SystemExit is called when length of a string in ACC is not 5
+    len_ACC = '+123'
+    with pytest.raises(SystemExit):
+        Store('00',MEM,len_ACC)
+
+    #testing if SystemExit is called when ACC doesn't start with + or  -
+    sign_ACC = '12345'
+    with pytest.raises(SystemExit):
+        Store('00',MEM,sign_ACC)
+
+    #Testing if SystemExit is called when ACC passes above systemexit calls but fails due to not being an Int
+    str_ACC = '+12W4'
+    with pytest.raises(SystemExit):
+        Store('00',MEM,str_ACC)
 
 def test_read(monkeypatch):
     file = open('test_files/unit_tests.txt','r')
     MEM = Allocate_Memory(file)
+
+    #Testing Valid input is returned and matches given input
     monkeypatch.setattr('builtins.input', lambda _: '+1111')
     first_MEM = Read('00',MEM)
     assert Get_Value(0,first_MEM) == '+1111'
-    monkeypatch.setattr('builtins.input', lambda _: '1111')
-    second_MEM = Read('00',MEM)
-    assert Get_Value(0,second_MEM) == '+0001'
+
+    #Testing multiple invalid inputs followed by the exit input of 'q'
+    with pytest.raises(SystemExit):
+        inputs = iter(['1111', '1234', 'Hello', 'Quality', 'quit', 'q'])
+        monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+        second_MEM = Read('00',MEM)
+        Get_Value(0,second_MEM)
+    
 
 def test_write(capfd):
     file = open('test_files/unit_tests.txt','r')
     MEM = Allocate_Memory(file)
     first_MEM = Write('00',MEM)
     output, err = capfd.readouterr()
+
+    #Testing if printed word is the expected word
     assert output == '+0001\n'
+
+    #Testing if MEM returned is the same as original MEM
     assert first_MEM == MEM
+
+    #Testing if SystemExit is called when MEM at location is not a string
+    int_MEM = dict()
+    int_MEM['00'] = 1
+    with pytest.raises(SystemExit):
+        Write('00',int_MEM)
+
+    #Testing if SystemExit is called when length of a string in mem is not 5
+    len_MEM = dict()
+    len_MEM['00'] = '+123'
+    with pytest.raises(SystemExit):
+        Write('00',len_MEM)
+
+    #testing if SystemExit is called when word in mem doesn't start with + or  -
+    sign_MEM = dict()
+    sign_MEM['00'] = '12345'
+    with pytest.raises(SystemExit):
+        Write('00',sign_MEM)
+
+    #Testing if SystemExit is called when word in MEM passes above systemexit calls but fails due to not being an Int
+    str_MEM = dict()
+    str_MEM['00'] = '+12W4'
+    with pytest.raises(SystemExit):
+        Write('00',str_MEM)
+
 
 
