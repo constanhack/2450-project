@@ -1,6 +1,7 @@
 from memory_and_file_ops import Allocate_Memory, Get_Value, File_Picker
 from load_store_ops import Load, Store
 from IO_ops import Read, Write
+from arithmetic_ops import Add, Subtract, Divide, Multiply, Check_No_Overflow
 import pytest
 
 def test_allocate_memory():
@@ -46,20 +47,20 @@ def test_load():
     file = open('test_files/unit_tests.txt','r')
     MEM = Allocate_Memory(file)
     ACC = '+0000'
-    first_MEM, first_ACC = Load('01',MEM,ACC)
+    returned_MEM, returned_ACC = Load('01',MEM,ACC)
 
     #Testing returned accumulator (ACC) is correct type (str)
-    assert type(first_ACC) == str
+    assert type(returned_ACC) == str
 
     #Testing returned accumulator (ACC) is correct value from allocated location with a value
-    assert first_ACC == '-0002'
+    assert returned_ACC == '-0002'
 
     #Testing if returned MEM is the same as the first MEM
-    assert MEM == first_MEM
+    assert MEM == returned_MEM
 
     #Testing if returned accumulator (ACC) is correct value from allocated but empty location
-    second_MEM, second_ACC = Load('99',MEM,ACC)
-    assert second_ACC == '+0000'
+    returned_MEM_2, returned_ACC_2 = Load('99',MEM,ACC)
+    assert returned_ACC_2 == '+0000'
 
     #Testing if SystemExit is called when MEM at location is not a string
     int_MEM = dict()
@@ -89,16 +90,16 @@ def test_store():
     file = open('test_files/unit_tests.txt','r')
     MEM = Allocate_Memory(file)
     ACC = '+9999'
-    first_MEM, first_ACC = Store('00',MEM,ACC)
+    returned_MEM, returned_ACC = Store('00',MEM,ACC)
 
     #Testing if the returned ACC is a string
-    assert type(first_ACC) == str 
+    assert type(returned_ACC) == str 
 
     #Testing if original ACC equal to the value at location '00'
-    assert first_MEM['00'] == ACC
+    assert returned_MEM['00'] == ACC
 
     #Testing if the returned ACC and original ACC are the same
-    assert first_ACC == ACC
+    assert returned_ACC == ACC
 
     #Testing if SystemExit is called when ACC is not a string
     int_ACC = 12345
@@ -126,28 +127,28 @@ def test_read(monkeypatch):
 
     #Testing Valid input is returned and matches given input
     monkeypatch.setattr('builtins.input', lambda _: '+1111')
-    first_MEM = Read('00',MEM)
-    assert Get_Value(0,first_MEM) == '+1111'
+    returned_MEM = Read('00',MEM)
+    assert Get_Value(0,returned_MEM) == '+1111'
 
     #Testing multiple invalid inputs followed by the exit input of 'q'
     with pytest.raises(SystemExit):
         inputs = iter(['1111', '1234', 'Hello', 'Quality', 'quit', 'q'])
         monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-        second_MEM = Read('00',MEM)
-        Get_Value(0,second_MEM)
+        returned_MEM_2 = Read('00',MEM)
+        Get_Value(0,returned_MEM_2)
     
 
 def test_write(capfd):
     file = open('test_files/unit_tests.txt','r')
     MEM = Allocate_Memory(file)
-    first_MEM = Write('00',MEM)
+    returned_MEM = Write('00',MEM)
     output, err = capfd.readouterr()
 
     #Testing if printed word is the expected word
     assert output == '+0001\n'
 
     #Testing if MEM returned is the same as original MEM
-    assert first_MEM == MEM
+    assert returned_MEM == MEM
 
     #Testing if SystemExit is called when MEM at location is not a string
     int_MEM = dict()
@@ -173,5 +174,94 @@ def test_write(capfd):
     with pytest.raises(SystemExit):
         Write('00',str_MEM)
 
+def test_add():
+    file = open('test_files/unit_tests.txt','r')
+    MEM = Allocate_Memory(file)
+    ACC = "+0000"
+
+    #Testing if ACC is returned as the correct type STR
+    returned_MEM, returned_ACC = Add('00',MEM,ACC)
+    assert type(returned_ACC) == str
+
+    #Testing if returned_MEM is the same as original MEM
+    assert returned_MEM == MEM
+
+    #Testing if ACC is set to the correct value after addition with positive number
+    assert returned_ACC == '+0001'
+
+    returned_MEM_2, returned_ACC_2 = Add('01',MEM,ACC)
+    #testing if ACC is set to the correct value after addition with negative number
+    assert returned_ACC_2 == '-0002'
+
+def test_subtract():
+    file = open('test_files/unit_tests.txt','r')
+    MEM = Allocate_Memory(file)
+    ACC = "+0000"
+
+    #Testing if ACC is returned as the correct type STR
+    returned_MEM, returned_ACC = Subtract('01',MEM,ACC)
+    assert type(returned_ACC) == str
+
+    #Testing if returned_MEM is the same as original MEM
+    assert returned_MEM == MEM
+
+    #Testing if ACC is set to the correct value after Subtracting and result is positive
+    assert returned_ACC == '+0002'
+
+    returned_MEM_2, returned_ACC_2 = Subtract('00',MEM,ACC)
+    #testing if ACC is set to the correct value after subtracting and resutl is negative
+    assert returned_ACC_2 == '-0001'
 
 
+def test_divide():
+    file = open('test_files/unit_tests.txt','r')
+    MEM = Allocate_Memory(file)
+    ACC = "+0009"
+
+    #Testing if ACC is returned as the correct type STR
+    returned_MEM, returned_ACC = Divide('02',MEM,ACC)
+    assert type(returned_ACC) == str
+
+    #Testing if returned_MEM is the same as original MEM
+    assert returned_MEM == MEM
+
+    #Testing if ACC is set to the correct value after dividing and result is positive
+    assert returned_ACC == '+0003'
+
+    ACC = '+0010'
+    returned_MEM_2, returned_ACC_2 = Divide('01',MEM,ACC)
+    #testing if ACC is set to the correct value after dividing and resutl is negative
+    assert returned_ACC_2 == '-0005'
+
+
+def test_multiply():
+    file = open('test_files/unit_tests.txt','r')
+    MEM = Allocate_Memory(file)
+    ACC = "+0002"
+
+    #Testing if ACC is returned as the correct type STR
+    returned_MEM, returned_ACC = Multiply('02',MEM,ACC)
+    assert type(returned_ACC) == str
+
+    #Testing if returned_MEM is the same as original MEM
+    assert returned_MEM == MEM
+
+    #Testing if ACC is set to the correct value after multiplying and result is positive
+    assert returned_ACC == '+0006'
+
+    returned_MEM_2, returned_ACC_2 = Multiply('01',MEM,ACC)
+    #testing if ACC is set to the correct value after multiplying and resutl is negative
+    assert returned_ACC_2 == '-0004'
+    
+def test_check_no_overflow():
+    #Testing if valid number in the range of -9999 and 9999 returns true
+    assert Check_No_Overflow(9999) == True
+    assert Check_No_Overflow(-9999) == True
+    assert Check_No_Overflow(0) == True
+
+    #Testing if systemexit is called when range is < -9999 or > 9999
+    with pytest.raises(SystemExit):
+        assert Check_No_Overflow(10000)
+
+    with pytest.raises(SystemExit):
+        assert Check_No_Overflow(-10000)
