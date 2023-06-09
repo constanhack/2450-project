@@ -1,7 +1,8 @@
-from memory_and_file_ops import Allocate_Memory, Get_Value, File_Picker
+from memory_and_file_ops import Allocate_Memory, Get_Value
 from load_store_ops import Load, Store
 from IO_ops import Read, Write
 from arithmetic_ops import Add, Subtract, Divide, Multiply, Check_No_Overflow
+from control_ops import Branch, BranchNeg, BranchZero, Halt, No_Infinite_Branching
 import pytest
 
 def test_allocate_memory():
@@ -265,3 +266,118 @@ def test_check_no_overflow():
 
     with pytest.raises(SystemExit):
         assert Check_No_Overflow(-10000)
+
+def test_branch():
+    file = open('test_files/unit_tests.txt','r')
+    MEM = Allocate_Memory(file)
+    PC = 0
+
+    returned_MEM, returned_PC, returned_branched = Branch('03',MEM,PC)
+
+    #Testing if PC is returned as the correct type int
+    assert type(returned_PC) == int
+
+    #Testing if PC returned is the correct value 
+    assert returned_PC == 3
+
+    #Testing if returned_branced status is true
+    assert returned_branched == True
+
+    #Testing if returned_MEM is the same as delivered MEM
+    assert returned_MEM == MEM
+
+    #Testing if program exits on infinite branch
+    with pytest.raises(SystemExit):
+        assert Branch('00',MEM,PC)
+
+
+def test_branchneg():
+    file = open('test_files/unit_tests.txt','r')
+    MEM = Allocate_Memory(file)
+    ACC = '-0001'
+    PC = 0
+
+    returned_MEM, returned_ACC, returned_PC, returned_branched = BranchNeg('03',MEM,ACC,PC)
+
+    #Testing if PC is returned as the correct type int
+    assert type(returned_PC) == int
+
+    #Testing if returned_branced status is true
+    assert returned_branched == True
+
+    #Testing if PC returned is the correct value when branched is true
+    assert returned_PC == 3
+
+    #Testing if returned_MEM is the same as delivered MEM
+    assert returned_MEM == MEM
+
+    #Testing if program exits on infinite branch
+    with pytest.raises(SystemExit):
+        assert BranchNeg('00',MEM,ACC,PC)
+
+    #Testing if returned ACC is correct type
+    assert type(returned_ACC) == str
+
+    #Testing if returned ACC is the same as passed ACC
+    assert returned_ACC == ACC
+
+    #Testing if returned branched status is False
+    ACC_2 = '+0000'
+    returned_MEM_2, returned_ACC_2, returned_PC_2, returned_branched_2 = BranchNeg('03',MEM,ACC_2,PC)
+    assert returned_branched_2 == False
+
+    #Testing if PC returned is the correct value when branched is False
+    assert returned_PC_2 == PC
+
+
+def test_branchzero():
+    file = open('test_files/unit_tests.txt','r')
+    MEM = Allocate_Memory(file)
+    ACC = '+0000'
+    PC = 0
+
+    returned_MEM, returned_ACC, returned_PC, returned_branched = BranchZero('03',MEM,ACC,PC)
+
+    #Testing if PC is returned as the correct type int
+    assert type(returned_PC) == int
+
+    #Testing if returned_branced status is true
+    assert returned_branched == True
+
+    #Testing if PC returned is the correct value when branched is true
+    assert returned_PC == 3
+
+    #Testing if returned_MEM is the same as delivered MEM
+    assert returned_MEM == MEM
+
+    #Testing if program exits on infinite branch
+    with pytest.raises(SystemExit):
+        assert BranchZero('00',MEM,ACC,PC)
+
+    #Testing if returned ACC is correct type
+    assert type(returned_ACC) == str
+
+    #Testing if returned ACC is the same as passed ACC
+    assert returned_ACC == ACC
+
+    #Testing if returned branched status is False
+    ACC_2 = '+0001'
+    returned_MEM_2, returned_ACC_2, returned_PC_2, returned_branched_2 = BranchZero('03',MEM,ACC_2,PC)
+    assert returned_branched_2 == False
+
+    #Testing if PC returned is the correct value when branched is False
+    assert returned_PC_2 == PC  
+
+def test_halt():
+    #Testing that when halt is call system exit is called
+    with pytest.raises(SystemExit):
+        assert Halt()
+    
+def test_no_infinite_branching():
+    #Testing when PC and action Numbers are not the same returns true
+    assert No_Infinite_Branching(1,'02') == True
+
+    #Testing when PC and action Numbers are the same, system exit
+    with pytest.raises(SystemExit):
+        assert No_Infinite_Branching(1,'01')
+    
