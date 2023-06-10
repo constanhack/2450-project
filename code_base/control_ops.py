@@ -16,7 +16,6 @@ def BranchZero(act_nums, MEM, ACC, PC):
         if ACC[1:5] == '0000':
             return[MEM, ACC, int(act_nums), True]
         return [MEM, ACC, PC, False]
-    
 
 def Halt():
     '''Pause the program'''
