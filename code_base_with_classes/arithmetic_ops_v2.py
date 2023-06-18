@@ -1,49 +1,49 @@
 from data_model import DataModel
-from control_ops import Halt
+from control_ops_v2 import Halt
 
 def Add(act_nums,mem):
     """Adds a word from a specific location in memory to the word in the accumulator (leave the result in the accumulator)"""
-    ACC = int(mem.get_acc())
-    print(f'Adding {int(mem.get_mem_value(act_nums))} to {ACC}')
-    ACC += int(mem.get_mem_value(act_nums))
+    ACC = mem.get_acc()
+    print(f'Adding {mem.get_mem_value(act_nums)} to {ACC}')
+    ACC += mem.get_mem_value(act_nums)
     if Check_No_Overflow(ACC):
-        mem.set_acc(str(ACC))
+        mem.set_acc(ACC)
         return True
     return False
 
 def Subtract(act_nums,mem):
     """Subtracts a word from a specific location in memory from the word in the accumulator (leave the result in the accumulator)"""
-    ACC = int(mem.get_acc())
-    print(f'Subtracting {int(mem.get_mem_value(act_nums))} from {ACC}')
-    ACC -= int(mem.get_mem_value(act_nums))
+    ACC = mem.get_acc()
+    print(f'Subtracting {mem.get_mem_value(act_nums)} from {ACC}')
+    ACC -= mem.get_mem_value(act_nums)
     if Check_No_Overflow(ACC):
-        mem.set_acc(str(ACC))
+        mem.set_acc(ACC)
         return True
     return False
 
 def Divide(act_nums,mem):
     """Divides the word in the accumulator by a word from a specific location in memory (leave the result in the accumulator)."""
-    ACC = int(mem.get_acc())
-    if int(mem.get_mem_value(act_nums)) == 0:
+    ACC = mem.get_acc()
+    if mem.get_mem_value(act_nums) == 0:
         print("Division By Zero Error: Cannot divide by 0\nHalting Program")
         Halt()
     else:
-        print(f'Dividing {ACC} by {int(mem.get_mem_value(act_nums))}')
-        ACC //= int(mem.get_mem_value(act_nums))
+        print(f'Dividing {ACC} by {mem.get_mem_value(act_nums)}')
+        ACC //= mem.get_mem_value(act_nums)
 
         if Check_No_Overflow(ACC):
-            mem.set_acc(str(ACC))
+            mem.set_acc(ACC)
             return True
         
     return False
 
 def Multiply(act_nums,mem):
     """Multiplies a word from a specific location in memory to the word in the accumulator (leave the result in the accumulator)."""
-    ACC = int(mem.get_acc())
-    print(f'Multiplying {ACC} by {int(mem.get_mem_value(act_nums))}')
-    ACC *= int(mem.get_mem_value(act_nums))
+    ACC = mem.get_acc()
+    print(f'Multiplying {ACC} by {mem.get_mem_value(act_nums)}')
+    ACC *= mem.get_mem_value(act_nums)
     if Check_No_Overflow(ACC):
-        mem.set_acc(str(ACC))
+        mem.set_acc(ACC)
         return True
         
     return False
