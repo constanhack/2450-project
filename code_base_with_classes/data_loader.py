@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 
 class DataLoader:
-    def __init__(self,memory_size = 100):
+    def __init__(self, memory_size = 100, testing = False, testing_file_path = ''):
         def File_Picker():
             root = tk.Tk()
             root.withdraw()
@@ -28,7 +28,7 @@ class DataLoader:
                 index += 1
             return MEM
         
-        self._private_data_file_path = File_Picker()
+        self._private_data_file_path = testing_file_path if testing == True else File_Picker()
         self._private_data_dictionary =  Allocate_Memory(open(self._private_data_file_path,'r'), memory_size)
 
     def get_data(self):
