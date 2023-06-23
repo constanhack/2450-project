@@ -6,6 +6,11 @@ from arithmetic_ops_v2 import Add, Subtract, Divide, Multiply, Check_No_Overflow
 from control_ops_v2 import Branch, BranchNeg, BranchZero, Halt, No_Infinite_Branching
 import pytest
 
+class testingWindow():
+    def appendOutput(self,value):
+        print(value)
+
+testWindow = testingWindow()
 
 
 def test_allocate_memory():
@@ -52,7 +57,7 @@ def test_get_value():
 def test_load():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
-    Load(1,mem)
+    Load(1,mem,testWindow)
 
     #Testing returned accumulator (ACC) is correct type (int)
     assert type(mem.get_acc()) == int
@@ -63,21 +68,13 @@ def test_load():
     #Testing if valueError is called when MEM at location is not a valid input
     int_MEM = DataModel({'00':'abcd'})
     with pytest.raises(ValueError):
-        Load(0,int_MEM)
-
-    #Testing if SystemExit is called when value of data > 9999 or < -9999
-    len_MEM =  DataModel({'00':'+10000', '01':'-10000'})
-    with pytest.raises(SystemExit):
-        Load(0,len_MEM)
-
-    with pytest.raises(SystemExit):
-        Load(1,len_MEM)
+        Load(0,int_MEM,testWindow)
 
 
 def test_store():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
-    Store(0,mem)
+    Store(0,mem,testWindow)
 
     #Testing returned accumulator (ACC) is correct type (int)
     assert type(mem.get_acc()) == int
@@ -91,21 +88,21 @@ def test_read(monkeypatch):
     mem = DataModel(data.get_data())
     #Testing Valid input is returned and matches given input
     monkeypatch.setattr('builtins.input', lambda _: '+1111')
-    Read(0,mem)
+    Read(0,mem,testWindow)
     assert  mem.get_mem_value(0) == 1111
 
     #Testing multiple invalid inputs followed by the exit input of 'q'
-    with pytest.raises(SystemExit):
-        inputs = iter(['10000', '-12345', 'Hello', 'Quality', 'quit', 'q'])
-        monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-        Read(0,mem)
-        mem.get_mem_value(0)
+    inputs = iter(['10000', '-12345', 'Hello', 'Quality', 'quit', 'q'])
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
+    assert Read(0,mem,testWindow) == None
+    assert mem._private_PC == 'HALT'
+
     
 
 def test_write(capfd):
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
-    Write(0,mem)
+    Write(0,mem,testWindow)
     output, err = capfd.readouterr()
 
     #Testing if printed word is the expected word
@@ -114,26 +111,26 @@ def test_write(capfd):
     #Testing if ValueError is called when MEM at location is not a string
     int_MEM = DataModel({'00':'abcd'})
     with pytest.raises(ValueError):
-        Write(0,int_MEM)
+        Write(0,int_MEM,testWindow)
 
     #Testing if ValueError is called when MEM at location is not a valid input
     int_MEM = DataModel({'00':'abcd'})
     with pytest.raises(ValueError):
-        Write(0,int_MEM)
+        Write(0,int_MEM,testWindow)
 
     #Testing if SystemExit is called when value of data > 9999 or < -9999
     len_MEM =  DataModel({'00':'+10000', '01':'-10000'})
-    with pytest.raises(SystemExit):
-        Write(0,len_MEM)
+    assert Write(0,len_MEM,testWindow) == None
+    assert len_MEM._private_PC == 'HALT'
 
-    with pytest.raises(SystemExit):
-        Write(1,len_MEM)
+    assert Write(1,len_MEM,testWindow) == None
+    assert len_MEM._private_PC == 'HALT'
 
 def test_add():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
 
-    Add(0,mem)
+    Add(0,mem,testWindow)
     #Testing if ACC is still the correct type STR
     assert type(mem._private_ACC)== str
 
@@ -149,7 +146,7 @@ def test_subtract():
     mem = DataModel(data.get_data())
 
     #Testing if ACC is returned as the correct type STR
-    Subtract(1,mem)
+    Subtract(1,mem,testWindow)
     assert type(mem._private_ACC) == str
 
     #Testing if ACC is set to the correct value after Subtracting and result is positive
@@ -158,7 +155,7 @@ def test_subtract():
     #Testing if returned ACC is correct
     assert mem.get_acc() == 2
 
-    Subtract(0,mem)
+    Subtract(0,mem,testWindow)
     #testing if ACC is set to the correct value after subtracting and resutl is negative
     assert mem.get_acc() == 1
 
@@ -168,7 +165,7 @@ def test_divide():
     mem = DataModel(data.get_data(),'+0009')
 
     #Testing if ACC is returned as the correct type INT
-    Divide(2,mem)
+    Divide(2,mem,testWindow)
     assert type(mem.get_acc()) == int
 
     #Testing if ACC in mem is still correct type STR
@@ -180,7 +177,7 @@ def test_divide():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data(),'+0010')
     #Testing if ACC is set to the correct value after dividing and result is negative
-    Divide(1,mem)
+    Divide(1,mem,testWindow)
     assert mem.get_acc() == -5
 
 
@@ -189,7 +186,7 @@ def test_multiply():
     mem = DataModel(data.get_data(),'+0002')
 
     #Testing if ACC is returned as the correct type INT
-    Multiply(2,mem)
+    Multiply(2,mem,testWindow)
     assert type(mem.get_acc()) == int
 
     #Testing if ACC in mem is still correct type STR
@@ -200,28 +197,30 @@ def test_multiply():
 
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data(),'+0002')
-    Multiply(1,mem)
+    Multiply(1,mem,testWindow)
     #testing if ACC is set to the correct value after multiplying and resutl is negative
     assert mem.get_acc() == -4
     
 def test_check_no_overflow():
+    data = DataLoader(100,True,'test_files/unit_tests.txt')
+    mem = DataModel(data.get_data())
     #Testing if valid number in the range of -9999 and 9999 returns true
-    assert Check_No_Overflow(9999) == True
-    assert Check_No_Overflow(-9999) == True
-    assert Check_No_Overflow(0) == True
+    assert Check_No_Overflow(9999,mem) == True
+    assert Check_No_Overflow(-9999,mem) == True
+    assert Check_No_Overflow(0,mem) == True
 
     #Testing if systemexit is called when range is < -9999 or > 9999
-    with pytest.raises(SystemExit):
-        assert Check_No_Overflow(10000)
-
-    with pytest.raises(SystemExit):
-        assert Check_No_Overflow(-10000)
+    assert Check_No_Overflow(10000,mem) == None
+    assert mem._private_PC == 'HALT'
+    
+    assert Check_No_Overflow(-10000,mem) == None
+    assert mem._private_PC == 'HALT'
 
 def test_branch():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
 
-    result = Branch(3,mem)
+    result = Branch(3,mem,testWindow)
 
     #Testing if PC is returned as the correct type int
     assert type(mem.get_pc()) == int
@@ -235,15 +234,14 @@ def test_branch():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
     #Testing if program exits on infinite branch
-    with pytest.raises(SystemExit):
-        assert Branch(0,mem)
+    assert Branch(0,mem,testWindow) == False
 
 
 def test_branchneg():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data(),'-0001')
 
-    result = BranchNeg(3,mem)
+    result = BranchNeg(3,mem,testWindow)
 
     #Testing if PC is returned as the correct type int
     assert type(mem.get_pc()) == int
@@ -263,20 +261,20 @@ def test_branchneg():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
     #Testing if program exits on infinite branch
-    with pytest.raises(SystemExit):
-        assert BranchNeg(0,mem)
+    assert BranchNeg(0,mem,testWindow) == None
+    assert mem._private_PC == 'HALT'
 
     #Testing if returned branched status is False
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
-    result = BranchNeg(3,mem)
+    result = BranchNeg(3,mem,testWindow)
     assert result == False
 
 def test_branchzero():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
 
-    result = BranchZero(3,mem)
+    result = BranchZero(3,mem,testWindow)
 
     #Testing if PC is returned as the correct type INT
     assert type(mem.get_pc()) == int
@@ -289,9 +287,9 @@ def test_branchzero():
 
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
-    #Testing if program exits on infinite branch
-    with pytest.raises(SystemExit):
-        assert BranchZero(0,mem)
+    #Testing if program exits on infinite branch:
+    assert BranchZero(0,mem,testWindow) == None
+    assert mem._private_PC == 'HALT'
 
     #Testing if returned ACC is correct type
     assert type(mem.get_acc()) == int
@@ -302,19 +300,23 @@ def test_branchzero():
     #Testing if returned branched status is False
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data(),'+0001')
-    result = BranchZero(3,mem)
+    result = BranchZero(3,mem,testWindow)
     assert result == False
 
 def test_halt():
     #Testing that when halt is call system exit is called
-    with pytest.raises(SystemExit):
-        assert Halt()
+    data = DataLoader(100,True,'test_files/unit_tests.txt')
+    mem = DataModel(data.get_data())
+    assert Halt(mem) == None
+    assert mem._private_PC == 'HALT'
     
 def test_no_infinite_branching():
+    data = DataLoader(100,True,'test_files/unit_tests.txt')
+    mem = DataModel(data.get_data())
     #Testing when PC and action Numbers are not the same returns true
-    assert No_Infinite_Branching(1,2) == True
+    assert No_Infinite_Branching(1,2,mem) == True
 
     #Testing when PC and action Numbers are the same, system exit
-    with pytest.raises(SystemExit):
-        assert No_Infinite_Branching(1,1)
+    assert No_Infinite_Branching(1,1,mem) == None
+    assert mem._private_PC == 'HALT'
     
