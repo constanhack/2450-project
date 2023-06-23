@@ -6,10 +6,7 @@ class DataLoader:
         def File_Picker():
             root = tk.Tk()
             root.withdraw()
-            file_path = filedialog.askopenfilename()
-            if file_path == '':
-                print('No selection made, closing program.')
-                exit()    
+            file_path = filedialog.askopenfilename()  
             return file_path
         
         def Allocate_Memory(file,memory_size):
@@ -29,8 +26,11 @@ class DataLoader:
             return MEM
         
         self._private_data_file_path = testing_file_path if testing == True else File_Picker()
-        self._private_data_dictionary =  Allocate_Memory(open(self._private_data_file_path,'r'), memory_size)
+        self._private_data_dictionary =  Allocate_Memory(open(self._private_data_file_path,'r'), memory_size) if self._private_data_file_path else ''
 
     def get_data(self):
         return self._private_data_dictionary
+    
+    def get_file_path(self):
+        return self._private_data_file_path
     

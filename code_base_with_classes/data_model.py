@@ -36,7 +36,7 @@ class DataModel:
         return self._private_PC
     
     def set_pc(self,value):
-        if type(value) == int and value >=0 and value < self.mem_size:
+        if type(value) == int and value >=-1 and value < self.mem_size:
             self._private_PC = value
             return True
         return False
