@@ -4,10 +4,7 @@ from PyQt6 import QtWidgets, uic
 from data_loader import DataLoader
 from data_model import DataModel
 from driver import main
-from PyQt5.QtCore import QRegExp
-from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtWidgets import QWidget, QLineEdit
-
+from PyQt6.QtWidgets import QWidget, QLineEdit
 from UVSim import Ui_MainWindow 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
