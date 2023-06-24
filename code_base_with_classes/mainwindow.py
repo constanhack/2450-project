@@ -4,6 +4,9 @@ from PyQt6 import QtWidgets, uic
 from data_loader import DataLoader
 from data_model import DataModel
 from driver import main
+from PyQt5.QtCore import QRegExp
+from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtWidgets import QWidget, QLineEdit
 
 from UVSim import Ui_MainWindow 
 
@@ -11,7 +14,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
-        
+        self.Enter.setEnabled(False)
         self.setFixedSize(self.size())
         self.ChooseFile.clicked.connect(self.chooseFileButtonClicked)
         self.Clear.clicked.connect(self.clearFilePath)
@@ -19,7 +22,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Enter.setCheckable(True)
         self.Enter.setChecked(False)
         self.Enter.clicked.connect(self.enterClicked)
-        self.Enter.setEnabled(False)
+
+        #self.InputText = QLineEdit(self)
 
     def chooseFileButtonClicked(self):
         self.OutputText.clear()
@@ -44,6 +48,24 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def enterClicked(self):
         self.Enter.setChecked(True)
+        
+
+        # reg_ex = QRegExp("^-?[0-9]{4}$")
+        # input_validator = QRegExpValidator(reg_ex, self.InputText)
+        # self.InputText.setValidator(input_validator)
+
+        user_input = self.getInput()
+        
+
+
+        # while user_input == "":
+        #     user_input = self.getInput()
+            
+        # print(input)
+        #self.InputText.setValidator()
+        #self.appendOutput("Inputted " + input)
+
+        return user_input
 
 
     def displayOutput(self,value):
@@ -54,11 +76,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.OutputText.append(value)
 
     def getInput(self):
-        self.Enter.setEnabled(True)
-        while self.Enter.isChecked == False:
-            pass
-            
-
+        input = self.InputText.text()
+        return input
 
 
 app = QtWidgets.QApplication(sys.argv)
