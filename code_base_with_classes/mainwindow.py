@@ -11,14 +11,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
-        self.Enter.setEnabled(False)
         self.setFixedSize(self.size())
         self.ChooseFile.clicked.connect(self.chooseFileButtonClicked)
         self.Clear.clicked.connect(self.clearFilePath)
         self.Start.clicked.connect(self.submitFilePath)
-        self.Enter.setCheckable(True)
-        self.Enter.setChecked(False)
-        self.Enter.clicked.connect(self.enterClicked)
 
         #self.InputText = QLineEdit(self)
 
