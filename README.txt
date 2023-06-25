@@ -112,9 +112,12 @@ python mainwindow.py
 
 Or, You can find the file mainwindow.py in the "code_base_with_classes" folder
 
-After running the file, it will prompt you for a file to choose from your folders.
+After running the file, select the choose file button.
+This will prompt you to choose a file from your folders.
 This file should be a text file filled (by the user) with BasicML commands in it.
-
+Then, select start. The output box will display messages as the code runs.
+If input is needed, there will be a pop up with a box for the user to input a BasicMl line.
+Select enter to submit the input. To run a new file, click clear and repeat the process.
 
 
 How to Test UVSim
