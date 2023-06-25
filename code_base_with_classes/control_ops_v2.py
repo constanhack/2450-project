@@ -6,7 +6,9 @@ def Branch(act_nums,mem,window):
         mem.set_pc(act_nums)
         window.appendOutput(f'Branching to register {mem.get_pc()}')
         return True
-    return False
+    else:
+        window.appendOutput("Infinite Branching Error: Can't branch to same line as branch call")
+        return False
 
 def BranchNeg(act_nums,mem,window):
     '''Branch to a specific location in memory if the accumulator is negative.'''
@@ -15,7 +17,13 @@ def BranchNeg(act_nums,mem,window):
             mem.set_pc(act_nums)
             window.appendOutput(f'Branching to register {mem.get_pc()}')
             return True
+        else:
+            window.appendOutput("Branch Unsuccessful: Accumulator is not 0")
+            return False
+    else:
+        window.appendOutput("Infinite Branching Error: Can't branch to same line as branch call")
         return False
+    
 
 def BranchZero(act_nums,mem,window):
     '''Branch to a specific location in memory if the accumulator is zero.'''
@@ -24,7 +32,13 @@ def BranchZero(act_nums,mem,window):
             mem.set_pc(act_nums)
             window.appendOutput(f'Branching to register {mem.get_pc()}')
             return True
+        else:
+            window.appendOutput("Branch Unsuccessful: Accumulator is not 0")
+            return False
+    else:
+        window.appendOutput("Infinite Branching Error: Can't branch to same line as branch call")
         return False
+    
 
 def Halt(mem):
     '''Pause the program'''

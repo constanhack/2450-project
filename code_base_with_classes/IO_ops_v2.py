@@ -28,46 +28,49 @@ def Read(act_nums, mem, window):
     if dialog.exec() == QDialog.DialogCode.Accepted:
         user_input = dialog.get_input()
         # Process the user input as needed
-        print("User input:", user_input)
-        
+        if user_input == 'q':
+            exit()
+
+        invalid_msg = "Invalid Character entered. Enter 'q' to exit or try again."
+
         if len(user_input) == 5:
             if user_input[0] not in ('+', '-'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
             if user_input[1] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
             if user_input[2] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
             if user_input[3] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
             if user_input[4] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
                 
-        if len(user_input) == 4:
+        elif len(user_input) == 4:
             '''for char in user_input:
                 if char not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
                     window.appendOutput("Invalid Character entered")
                     exit()'''
             if user_input[0] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
             if user_input[1] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
             if user_input[2] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
             if user_input[3] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                window.appendOutput("Invalid Character entered")
-                exit()
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
                 
         else:
-            window.appendOutput("Error, characters must be 4 digits")
-            exit()
+            window.appendOutput("Error, characters must be 4 digits. Enter 'q' to exit or try again.")
+            Read(act_nums, mem, window)
         
         '''try:
             if len(user_input) > 5:
@@ -92,7 +95,7 @@ def Read(act_nums, mem, window):
             exit()'''
         
         if int(user_input) >= 0:
-            window.appendOutput(f'Input of +{user_input} has been read into mem location {act_nums}')
+            window.appendOutput(f'Input of {user_input} has been read into mem location {act_nums}')
         else:
             window.appendOutput(f'Input of {user_input} has been read into mem location {act_nums}')
         mem.set_mem_value(int(user_input),act_nums)  
