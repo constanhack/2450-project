@@ -49,13 +49,16 @@ The last two digits of a BasicML instruction are the operand – the address of 
 
 
 
-Prerequisites
+Prerequisites:
 
 pytest
 
+PyQt6
+
+PySide6
 
 
-How to Install pytest
+How to Install pytest:
 
 pytest requires: Python 3.7+ or PyPy3.
 
@@ -69,18 +72,45 @@ $ pytest --version
 pytest 7.1.3
 
 
-pytest Documentation
-
+pytest Documentation:
 https://docs.pytest.org/en/7.1.x/getting-started.html
 
 
+
+How to install PyQt6:
+
+PyQt6 requires: Python v3.6.1 or later.
+
+Run the following commands in your command line
+
+pip install pyqt6
+Pip install pyqt6-tools
+
+PyQt6 Documentation:
+https://www.riverbankcomputing.com/static/Docs/PyQt6/
+
+
+How to install PySide6:
+
+
+
+Run the following commands in your command line
+
+pyside6 requires: The Clang library (C-bindings), version 13.0 or higher
+
+pip install pyside6
+
+PySide6 Documentation:
+https://doc.qt.io/qtforpython-6/PySide6/QtWidgets/index.html
 
 
 How to Run UVSim
 
 Enter the following command into your terminal:
 
-python main.py
+python mainwindow.py
+
+Or, You can find the file mainwindow.py in the "code_base_with_classes" folder
 
 After running the file, it will prompt you for a file to choose from your folders.
 This file should be a text file filled (by the user) with BasicML commands in it.
