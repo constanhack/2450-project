@@ -9,7 +9,9 @@ def Add(act_nums,mem,window):
     if Check_No_Overflow(ACC,mem):
         mem.set_acc(ACC)
         return True
-    return False
+    else:
+        window.appendOutput("Overflow Error: Value added exceeded 9999")
+        return False
 
 def Subtract(act_nums,mem,window):
     """Subtracts a word from a specific location in memory from the word in the accumulator (leave the result in the accumulator)"""
@@ -19,7 +21,9 @@ def Subtract(act_nums,mem,window):
     if Check_No_Overflow(ACC,mem):
         mem.set_acc(ACC)
         return True
-    return False
+    else:
+        window.appendOutput("Overflow Error: Value added exceeded 9999/-9999")
+        return False
 
 def Divide(act_nums,mem,window):
     """Divides the word in the accumulator by a word from a specific location in memory (leave the result in the accumulator)."""
@@ -34,7 +38,6 @@ def Divide(act_nums,mem,window):
         if Check_No_Overflow(ACC,mem):
             mem.set_acc(ACC)
             return True
-        
     return False
 
 def Multiply(act_nums,mem,window):
@@ -45,8 +48,9 @@ def Multiply(act_nums,mem,window):
     if Check_No_Overflow(ACC,mem):
         mem.set_acc(ACC)
         return True
-        
-    return False
+    else:
+        window.appendOutput("Overflow Error: Value added exceeded 9999/-9999")
+        return False
 
 def Check_No_Overflow(ACC,mem):
     '''Checks for overflow values (Greater than 9999 or less than -9999)'''
