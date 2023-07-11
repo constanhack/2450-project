@@ -4,7 +4,8 @@ from PyQt6 import QtWidgets, uic
 from data_loader import DataLoader
 from data_model import DataModel
 from driver import main
-from PyQt6.QtWidgets import QWidget, QLineEdit, QApplication, QDialog, QVBoxLayout, QPushButton, QLabel
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QWidget, QLineEdit, QApplication, QDialog, QVBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem
 from UVSim import Ui_MainWindow 
 
 
@@ -22,9 +23,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def chooseFileButtonClicked(self):
         self.OutputText.clear()
-        data = DataLoader()
-        self._mem = DataModel(data.get_data())
-        self.FilePath.setText(data.get_file_path())
+        self._data = DataLoader()
+        ##self._mem = DataModel(data.get_data())
+        self.FilePath.setText(self._data.get_file_path())
 
     def clearFilePath(self):
         self.OutputText.clear()
@@ -35,8 +36,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         filepath = self.FilePath.text()
         print(filepath)
         if filepath:
-            main(self._mem, window)
-            self.appendOutput('Program Complete\nSelect a file to run again')
+            editWindow = FileEditBox(window)
+            editWindow.setModal(True)
+            if editWindow.exec() == QDialog.DialogCode.Accepted:
+                main(DataModel(self._data.get_data()), window)
+                self.appendOutput('Program Complete\nSelect a file to run again')
         else:
             self.OutputText.setText('Please Select A File To start')
 
@@ -81,6 +85,60 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if dialog.exec() == QDialog.DialogCode.Accepted:
             user_input1, user_input2 = dialog.get_inputs()
+
+class TableWidget(QTableWidget):
+    def __init__(self, rows, columns, parent=None):
+        super().__init__(rows, columns)
+    
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key.Key_V and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
+            selection = self.selectedIndexes()
+
+            if selection:
+                row_anchor = selection[0].row()
+                column_anchor = selection[0].column()
+
+                clipboard = QApplication.clipboard()
+
+                rows = clipboard.text().split('\n')
+                for indx_row, row in enumerate(rows):
+                    values = row.split('\t')
+                    for indx_col, value in enumerate(values):
+                        item = QTableWidgetItem(value)
+                        self.setItem(row_anchor + indx_row, column_anchor + indx_col, item)
+            super().keyPressEvent(event)
+
+class FileEditBox(QDialog):
+    def __init__(self,parent=None):
+        super().__init__(parent)
+        self.window_width, self.window_height = 200, 500
+        self.setMinimumSize(self.window_width, self.window_height)
+        self.setStyleSheet('''
+            QWidget {
+                font-size: 12px;
+            }
+        ''')
+        print(parent._data.get_data().values())        
+
+        self.layout = {}
+        self.layout['main'] = QVBoxLayout()
+        self.setLayout(self.layout['main'])
+
+        self.table = TableWidget(100, 1)
+        self.table.setHorizontalHeaderLabels(['Values'])
+        self.table.setSortingEnabled(False)
+        rowLabels = []
+        i = 0
+        for item in parent._data.get_data().values():
+             rowLabels.append(str(i))
+             self.table.setItem(i,0,QTableWidgetItem(str(item)))
+             i += 1
+        self.table.setVerticalHeaderLabels(rowLabels)
+        self.layout['main'].addWidget(self.table)
+
+        self.submit_button = QPushButton("Submit", self)
+        self.submit_button.clicked.connect(self.accept)
+        self.layout['main'].addWidget(self.submit_button)
 
 class ColorInputBox(QDialog):
     def __init__(self, parent=None):
