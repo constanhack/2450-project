@@ -7,6 +7,7 @@ from driver import main
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QLineEdit, QApplication, QDialog, QVBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem
 from UVSim import Ui_MainWindow 
+from PyQt5.QtGui import QColor
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -78,13 +79,45 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         input = self.InputText.text()
         return input
     
+    
+
     def colorBox(self):
         """Allows the user to enter a color."""
-        dialog = ColorInputBox(window)
+        dialog = ColorInputBox(self)
         dialog.setModal(True)
 
         if dialog.exec() == QDialog.DialogCode.Accepted:
             user_input1, user_input2 = dialog.get_inputs()
+
+            # Validate color format
+            if is_valid_hex(user_input1) and is_valid_hex(user_input2):
+                # Attempt to set the main window background color
+                self.setStyleSheet(f"background-color: #{user_input1};")
+                # Attempt to set button and label colors
+                color2_button = f"QPushButton{{background-color: #{user_input2};}}"
+                color2_label = f"color: #{user_input2};"
+                self.ChooseFile.setStyleSheet(color2_button)
+                self.Clear.setStyleSheet(color2_button)
+                self.Start.setStyleSheet(color2_button)
+                self.ColorSelect.setStyleSheet(color2_button)
+                self.Title.setStyleSheet(color2_label)
+                self.Output.setStyleSheet(color2_label)
+                self.Desc1.setStyleSheet(color2_label)
+                self.Desc2.setStyleSheet(color2_label)
+                self.label.setStyleSheet(color2_label)
+            else:
+                self.appendOutput("Invalid hexidecimal number.")
+
+def is_valid_hex(color):
+    try:
+        if len(color) == 6:
+            int(color, 16)
+            return True
+        return False
+    except ValueError:
+        return False
+
+
 
 class TableWidget(QTableWidget):
     def __init__(self, rows, columns, parent=None):
