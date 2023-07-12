@@ -7,7 +7,7 @@ from driver import main
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QLineEdit, QApplication, QDialog, QVBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem
 from UVSim import Ui_MainWindow 
-from PyQt5.QtGui import QColor
+from PyQt6 .QtGui import QColor
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -20,12 +20,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Start.clicked.connect(self.submitFilePath)
         self.ColorSelect.clicked.connect(self.colorBox)
 
-        #self.InputText = QLineEdit(self)
-
     def chooseFileButtonClicked(self):
         self.OutputText.clear()
         self._data = DataLoader()
-        ##self._mem = DataModel(data.get_data())
         self.FilePath.setText(self._data.get_file_path())
 
     def clearFilePath(self):
@@ -35,12 +32,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def submitFilePath(self):
         self.OutputText.clear()
         filepath = self.FilePath.text()
-        print(filepath)
         if filepath:
             editWindow = FileEditBox(window)
             editWindow.setModal(True)
             if editWindow.exec() == QDialog.DialogCode.Accepted:
-                main(DataModel(self._data.get_data()), window)
+                main(DataModel(self._data), window)
                 self.appendOutput('Program Complete\nSelect a file to run again')
         else:
             self.OutputText.setText('Please Select A File To start')
@@ -48,23 +44,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def enterClicked(self):
         self.Enter.setChecked(True)
-        
-
-        # reg_ex = QRegExp("^-?[0-9]{4}$")
-        # input_validator = QRegExpValidator(reg_ex, self.InputText)
-        # self.InputText.setValidator(input_validator)
 
         user_input = self.getInput()
-        
-
-
-        # while user_input == "":
-        #     user_input = self.getInput()
-            
-        # print(input)
-        #self.InputText.setValidator()
-        #self.appendOutput("Inputted " + input)
-
         return user_input
 
 
@@ -150,8 +131,7 @@ class FileEditBox(QDialog):
             QWidget {
                 font-size: 12px;
             }
-        ''')
-        print(parent._data.get_data().values())        
+        ''')   
 
         self.layout = {}
         self.layout['main'] = QVBoxLayout()
@@ -164,14 +144,35 @@ class FileEditBox(QDialog):
         i = 0
         for item in parent._data.get_data().values():
              rowLabels.append(str(i))
-             self.table.setItem(i,0,QTableWidgetItem(str(item)))
+             tableWidget = QTableWidgetItem(str(item))
+             tableWidget.setBackground(QColor(255,255,255))
+             self.table.setItem(i,0,tableWidget)
              i += 1
         self.table.setVerticalHeaderLabels(rowLabels)
         self.layout['main'].addWidget(self.table)
 
         self.submit_button = QPushButton("Submit", self)
-        self.submit_button.clicked.connect(self.accept)
+        self.submit_button.clicked.connect(self.handle_submit)
         self.layout['main'].addWidget(self.submit_button)
+
+    def handle_submit(self):
+        rows = self.table.rowCount()
+        columns = self.table.columnCount()
+
+        mem = dict()
+        
+        for row in range(rows):
+            for column in range(columns):
+                item = self.table.item(row, column)
+                if item is not None:
+                    value = item.text()
+                    if row < 10:
+                        mem[f'0{row}'] = value if value != '' else '+0000'
+                    else:
+                        mem[f'{row}']  = value if value != '' else '+0000'
+        window._data = mem
+        self.close()
+        self.accept()
 
 class ColorInputBox(QDialog):
     def __init__(self, parent=None):
