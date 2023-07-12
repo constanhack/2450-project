@@ -12,7 +12,9 @@ class InputDialog(QDialog):
         self.confirm_button.clicked.connect(self.accept)
 
         layout = QVBoxLayout()
-        layout.addWidget(self.input_text)
+        inputText = self.input_text
+        inputText.setStyleSheet('background-color: white;')
+        layout.addWidget(inputText)
         layout.addWidget(self.confirm_button)
         self.setLayout(layout)
 
