@@ -12,7 +12,6 @@ class testingWindow():
 
 testWindow = testingWindow()
 
-
 def test_allocate_memory():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
@@ -33,6 +32,7 @@ def test_allocate_memory():
     with pytest.raises(MemoryError):
         mem.get_mem_value(100)
 
+
 def test_get_value():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
@@ -46,7 +46,7 @@ def test_get_value():
     #Testing if correct value is returned at smallest allocated location
     assert mem.get_mem_value(0) == 1
     
-    #Testing if correct value is returned at allocated but empy location
+    #Testing if correct value is returned at allocated but empty location
     assert mem.get_mem_value(10) == 0
 
     #Testing if keyError is called
@@ -97,7 +97,6 @@ def test_store():
     # assert Read(0,mem,testWindow) == None
     # assert mem._private_PC == 'HALT'
 
-    
 
 def test_write(capfd):
     data = DataLoader(100,True,'test_files/unit_tests.txt')
@@ -125,6 +124,7 @@ def test_write(capfd):
 
     assert Write(1,len_MEM,testWindow) == None
     assert len_MEM._private_PC == 'HALT'
+
 
 def test_add():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
@@ -201,6 +201,7 @@ def test_multiply():
     #testing if ACC is set to the correct value after multiplying and resutl is negative
     assert mem.get_acc() == -4
     
+    
 def test_check_no_overflow():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
@@ -215,6 +216,7 @@ def test_check_no_overflow():
     
     assert Check_No_Overflow(-10000,mem) == None
     assert mem._private_PC == 'HALT'
+
 
 def test_branch():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
@@ -270,6 +272,7 @@ def test_branchneg():
     result = BranchNeg(3,mem,testWindow)
     assert result == False
 
+
 def test_branchzero():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
@@ -291,10 +294,10 @@ def test_branchzero():
     assert BranchZero(0,mem,testWindow) == False
     assert mem._private_PC == 'HALT'
 
-    #Testing if returned ACC is correct type
+    #Testing if returned ACC is correct type int
     assert type(mem.get_acc()) == int
 
-    #Testing if private ACC type is still STR
+    #Testing if private ACC type is still str
     assert type(mem._private_ACC) == str
 
     #Testing if returned branched status is False
@@ -303,12 +306,14 @@ def test_branchzero():
     result = BranchZero(3,mem,testWindow)
     assert result == False
 
+
 def test_halt():
     #Testing that when halt is call system exit is called
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
     assert Halt(mem) == None
     assert mem._private_PC == 'HALT'
+    
     
 def test_no_infinite_branching():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
