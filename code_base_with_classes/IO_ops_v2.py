@@ -9,6 +9,7 @@ class InputDialog(QDialog):
         super().__init__(parent)
         self.input_text = QLineEdit()
         self.confirm_button = QPushButton('Enter')
+        self.confirm_button.setStyleSheet('background-color: white;')
         self.confirm_button.clicked.connect(self.accept)
 
         layout = QVBoxLayout()

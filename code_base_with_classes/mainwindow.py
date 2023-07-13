@@ -152,6 +152,7 @@ class FileEditBox(QDialog):
         self.layout['main'].addWidget(self.table)
 
         self.submit_button = QPushButton("Submit", self)
+        self.submit_button.setStyleSheet("background-color: white;")
         self.submit_button.clicked.connect(self.handle_submit)
         self.layout['main'].addWidget(self.submit_button)
 
@@ -196,7 +197,7 @@ class ColorInputBox(QDialog):
         self.input_label2.setStyleSheet("color: white;")
 
         self.confirm_button = QPushButton('Enter')
-        self.confirm_button.setStyleSheet("color: white;")
+        self.confirm_button.setStyleSheet("background-color: white;")
         self.confirm_button.clicked.connect(self.accept)
 
         layout = QVBoxLayout()
