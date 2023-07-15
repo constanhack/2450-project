@@ -2,12 +2,15 @@ from data_model import DataModel
 from control_ops_v2 import Halt
 import time
 
-from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout, QLineEdit, QPushButton
+from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout, QLineEdit, QPushButton, QLabel
 
 class InputDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.input_text = QLineEdit()
+        self.setWindowTitle("Read Input")
+        self.instruction_label = QLabel("Please enter a BasicML command:")
+        self.instruction_label.setStyleSheet("color: white;")
         self.confirm_button = QPushButton('Enter')
         self.confirm_button.setStyleSheet('background-color: white;')
         self.confirm_button.clicked.connect(self.accept)
@@ -15,9 +18,11 @@ class InputDialog(QDialog):
         layout = QVBoxLayout()
         inputText = self.input_text
         inputText.setStyleSheet('background-color: white;')
+        layout.addWidget(self.instruction_label)
         layout.addWidget(inputText)
         layout.addWidget(self.confirm_button)
         self.setLayout(layout)
+        
 
     def get_input(self):
         return self.input_text.text()
@@ -54,10 +59,6 @@ def Read(act_nums, mem, window):
                 Read(act_nums, mem, window)
                 
         elif len(user_input) == 4:
-            '''for char in user_input:
-                if char not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
-                    window.appendOutput("Invalid Character entered")
-                    exit()'''
             if user_input[0] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
                 window.appendOutput(invalid_msg)
                 Read(act_nums, mem, window)
@@ -74,28 +75,7 @@ def Read(act_nums, mem, window):
         else:
             window.appendOutput("Error, characters must be 4 digits. Enter 'q' to exit or try again.")
             Read(act_nums, mem, window)
-        
-        '''try:
-            if len(user_input) > 5:
-                window.appendOutput("Invalid Character entered")
-            if len(user_input) == 5:
-                if user_input[0] not in ('+', '-'):
-                    window.appendOutput("Invalid Character entered")
-                for val in user_input[1:5]:
-                    int(val)
-            if len(user_input) < 5:
-                try:
-                    for val in user_input[1:5]:
-                        int(val)
-                except ValueError:
-                    window.appendOutput("Error, characters must be digits")
-                    #print("Error, characters must be digits")
-                    exit()
-        
-        except ValueError:
-            window.appendOutput("Error, last 4 characters must be digits")
-            #print("Error, last 4 characters must be digits")
-            exit()'''
+    
         
         if int(user_input) >= 0:
             window.appendOutput(f'Input of {user_input} has been read into mem location {act_nums}')
