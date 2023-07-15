@@ -44,7 +44,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     
     def enterClicked(self):
         self.Enter.setChecked(True)
-
         user_input = self.getInput()
         return user_input
 
@@ -126,6 +125,7 @@ class FileEditBox(QDialog):
     def __init__(self,parent=None):
         super().__init__(parent)
         self.window_width, self.window_height = 200, 500
+        self.setWindowTitle("Edit File")
         self.setMinimumSize(self.window_width, self.window_height)
         self.setStyleSheet('''
             QWidget {
@@ -184,13 +184,13 @@ class ColorInputBox(QDialog):
         self.instruction_label.setStyleSheet("color: white;")
 
 
-        self.input_label1 = QLabel("Color 1:")
+        self.input_label1 = QLabel("Primary Color:")
         self.input_text1 = QLineEdit()
         self.input_text1.setStyleSheet("background-color: white;")
         self.input_text1.setText("4C721D")
         self.input_label1.setStyleSheet("color: white;")
 
-        self.input_label2 = QLabel("Color 2:")
+        self.input_label2 = QLabel("Offset Color:")
         self.input_text2 = QLineEdit()
         self.input_text2.setStyleSheet("background-color: white;")
         self.input_text2.setText("FFFFFF")

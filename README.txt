@@ -110,14 +110,42 @@ Enter the following command into your terminal:
 
 python mainwindow.py
 
-Or, You can find the file mainwindow.py in the "code_base_with_classes" folder
+Or, you can find the file mainwindow.py in the "code_base_with_classes" folder.
 
-After running the file, select the choose file button.
+
+How to Use UVSim
+
+1.) Opening/Selecting BasicML Code File:
+To open your BasicML code file, select the choose file button.
 This will prompt you to choose a file from your folders.
 This file should be a text file filled (by the user) with BasicML commands in it.
-Then, select start. The output box will display messages as the code runs.
-If input is needed, there will be a pop up with a box for the user to input a BasicMl line.
-Select enter to submit the input. To run a new file, click clear and repeat the process.
+Then, select the start button. This should open a window pop-up which will allow you to check/edit your file.
+
+2.) Editing BasicML File:
+Follow step 1 to open a file. 
+Now you can edit your BasicML code.
+To edit the code, you can double click any box to manually change the value. 
+Copy/Paste values:
+You can copy/paste the value in a single box.
+You can also paste multiple values. If you select a single box with a single click (and you already have multiple values/lines on your computer's clipboard), do the paste command to paste multiple values into mutiple boxes.
+Copy: CTRL + C
+Paste: CTRL + V
+If your file is done being edited, hit submit.
+
+3.) Running BasicML File:
+Follow steps 1 and 2 to open/edit the file first.
+If you had any read commands, another window will pop up and you will have to enter a BasicML code as an input. Hit enter once you have finished typing the code. This same pop up will appear for every read command you have. If you had no read commands in your code, no new pop-ups will appear.
+After this, the code will run and display the output to the output box.
+
+4.) Clearing the Output Box:
+If the output box is getting too cluttered, press the clear button.
+
+5.) Change Window Colors:
+To change the colors of the UVSim window, select the change colors button.
+A window will pop up that already has the hexidecimal values of the colors that UVSim is currently using. 
+The first color is the primary color and the second color is the offset color of the window.
+Click in the two boxes to enter new hexidecimal values of your chosen colors.
+Once you are happy with your choices, hit enter.
 
 
 How to Test UVSim
