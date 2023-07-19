@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog
 
 class DataLoader:
-    def __init__(self, memory_size = 100, testing = False, testing_file_path = ''):
+    def __init__(self, memory_size = 250, testing = False, testing_file_path = ''):
         def File_Picker():
             root = tk.Tk()
             root.withdraw()
@@ -13,12 +13,16 @@ class DataLoader:
             MEM = dict()
             for i in range(memory_size):
                 if i < 10:
-                    MEM[f'0{i}'] = '+0000'
+                    MEM[f'00{i}'] = '+000000'
+                elif i < 100:
+                    MEM[f'0{i}'] = '+000000'
                 else:
-                    MEM[f'{i}'] = '+0000'    
+                    MEM[f'{i}'] = '+000000'    
             index = 0
             for line in file:
                 if index < 10:
+                    MEM[f'00{index}'] = line.strip()
+                elif index < 100:
                     MEM[f'0{index}'] = line.strip()
                 else:
                     MEM[f'{index}'] = line.strip()

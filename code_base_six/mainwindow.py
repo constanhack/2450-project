@@ -138,7 +138,7 @@ class FileEditBox(QDialog):
         self.layout['main'] = QVBoxLayout()
         self.setLayout(self.layout['main'])
 
-        self.table = TableWidget(100, 1)
+        self.table = TableWidget(250, 1)
         self.table.setHorizontalHeaderLabels(['Values'])
         self.table.setSortingEnabled(False)
         rowLabels = []
@@ -169,9 +169,11 @@ class FileEditBox(QDialog):
                 if item is not None:
                     value = item.text()
                     if row < 10:
-                        mem[f'0{row}'] = value if value != '' else '+0000'
+                        mem[f'00{row}'] = value if value != '' else '+000000'
+                    elif row < 100:
+                        mem[f'0{row}'] = value if value != '' else '+000000'
                     else:
-                        mem[f'{row}']  = value if value != '' else '+0000'
+                        mem[f'{row}']  = value if value != '' else '+000000'
         window._data = mem
         self.close()
         self.accept()
