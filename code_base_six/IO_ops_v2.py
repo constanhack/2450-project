@@ -41,7 +41,7 @@ def Read(act_nums, mem, window):
 
         invalid_msg = "Invalid Character entered. Enter 'q' to exit or try again."
 
-        if len(user_input) == 5:
+        if len(user_input) == 7:
             if user_input[0] not in ('+', '-'):
                 window.appendOutput(invalid_msg)
                 Read(act_nums, mem, window)
@@ -57,8 +57,14 @@ def Read(act_nums, mem, window):
             if user_input[4] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
                 window.appendOutput(invalid_msg)
                 Read(act_nums, mem, window)
+            if user_input[5] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
+            if user_input[6] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
                 
-        elif len(user_input) == 4:
+        elif len(user_input) == 6:
             if user_input[0] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
                 window.appendOutput(invalid_msg)
                 Read(act_nums, mem, window)
@@ -71,9 +77,15 @@ def Read(act_nums, mem, window):
             if user_input[3] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
                 window.appendOutput(invalid_msg)
                 Read(act_nums, mem, window)
+            if user_input[4] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
+            if user_input[5] not in ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'):
+                window.appendOutput(invalid_msg)
+                Read(act_nums, mem, window)
                 
         else:
-            window.appendOutput("Error, characters must be 4 digits. Enter 'q' to exit or try again.")
+            window.appendOutput("Error, characters must be 6 digits. Enter 'q' to exit or try again.")
             Read(act_nums, mem, window)
     
         
