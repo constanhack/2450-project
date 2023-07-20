@@ -138,7 +138,7 @@ def test_add():
     assert mem.get_acc() == 1
 
     #Testing if ACC is set to the correct value after addition with positive number
-    assert mem._private_ACC == '+0001'
+    assert mem._private_ACC == '+000001'
 
 
 def test_subtract():
@@ -150,7 +150,7 @@ def test_subtract():
     assert type(mem._private_ACC) == str
 
     #Testing if ACC is set to the correct value after Subtracting and result is positive
-    assert mem._private_ACC == '+0002'
+    assert mem._private_ACC == '+000002'
 
     #Testing if returned ACC is correct
     assert mem.get_acc() == 2
@@ -162,7 +162,7 @@ def test_subtract():
 
 def test_divide():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
-    mem = DataModel(data.get_data(),'+0009')
+    mem = DataModel(data.get_data(),'+000009')
 
     #Testing if ACC is returned as the correct type INT
     Divide(2,mem,testWindow)
@@ -175,7 +175,7 @@ def test_divide():
     assert mem.get_acc() == 3
 
     data = DataLoader(100,True,'test_files/unit_tests.txt')
-    mem = DataModel(data.get_data(),'+0010')
+    mem = DataModel(data.get_data(),'+000010')
     #Testing if ACC is set to the correct value after dividing and result is negative
     Divide(1,mem,testWindow)
     assert mem.get_acc() == -5
@@ -183,7 +183,7 @@ def test_divide():
 
 def test_multiply():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
-    mem = DataModel(data.get_data(),'+0002')
+    mem = DataModel(data.get_data(),'+000002')
 
     #Testing if ACC is returned as the correct type INT
     Multiply(2,mem,testWindow)
@@ -196,7 +196,7 @@ def test_multiply():
     assert mem.get_acc() == 6
 
     data = DataLoader(100,True,'test_files/unit_tests.txt')
-    mem = DataModel(data.get_data(),'+0002')
+    mem = DataModel(data.get_data(),'+000002')
     Multiply(1,mem,testWindow)
     #testing if ACC is set to the correct value after multiplying and resutl is negative
     assert mem.get_acc() == -4
