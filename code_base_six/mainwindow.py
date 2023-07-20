@@ -8,6 +8,8 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QWidget, QLineEdit, QApplication, QDialog, QVBoxLayout, QPushButton, QLabel, QTableWidget, QTableWidgetItem
 from UVSim import Ui_MainWindow 
 from PyQt6 .QtGui import QColor
+import tkinter as tk
+from tkinter import filedialog
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -105,6 +107,7 @@ class TableWidget(QTableWidget):
         super().__init__(rows, columns)
     
     def keyPressEvent(self, event):
+        super().keyPressEvent(event)
         if event.key() == Qt.Key.Key_V and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
             selection = self.selectedIndexes()
 
@@ -119,8 +122,48 @@ class TableWidget(QTableWidget):
                     values = row.split('\t')
                     for indx_col, value in enumerate(values):
                         item = QTableWidgetItem(value)
-                        self.setItem(row_anchor + indx_row, column_anchor + indx_col, item)
-            super().keyPressEvent(event)
+                        self.item(row_anchor + indx_row, column_anchor + indx_col).setText(item.text())
+
+        if event.key() == Qt.Key.Key_C and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
+            selection = sorted(self.selectedIndexes())
+
+            copy_text = ''
+            max_row, max_column = selection[-1].row(), selection[-1].column()
+
+            for c in selection:
+                copy_text += self.item(c.row(), c.column()).text()
+
+                if c.row() == max_row and c.column() == max_column:
+                    break
+
+                if c.column() == max_column:
+                    copy_text += '\n'
+                else:
+                    copy_text += '\t'
+
+            QApplication.clipboard().setText(copy_text)
+
+        if event.key() == Qt.Key.Key_X and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
+            selection = sorted(self.selectedIndexes())
+
+            copy_text = ''
+            max_row, max_column = selection[-1].row(), selection[-1].column()
+
+            for c in selection:
+                copy_text += self.item(c.row(), c.column()).text()
+                self.item(c.row(),c.column()).setText('')
+
+                if c.row() == max_row and c.column() == max_column:
+                    break
+
+                if c.column() == max_column:
+                    copy_text += '\n'
+                else:
+                    copy_text += '\t'
+
+            QApplication.clipboard().setText(copy_text)
+
+            
 
 class FileEditBox(QDialog):
     def __init__(self,parent=None):
@@ -157,6 +200,11 @@ class FileEditBox(QDialog):
         self.submit_button.clicked.connect(self.handle_submit)
         self.layout['main'].addWidget(self.submit_button)
 
+        self.save_button = QPushButton("Save", self)
+        self.save_button.setStyleSheet("background-color: white;")
+        self.save_button.clicked.connect(self.file_saver)
+        self.layout['main'].addWidget(self.save_button)
+
     def handle_submit(self):
         rows = self.table.rowCount()
         columns = self.table.columnCount()
@@ -177,6 +225,24 @@ class FileEditBox(QDialog):
         window._data = mem
         self.close()
         self.accept()
+
+    def file_saver(self):
+        file = filedialog.asksaveasfilename(filetypes=[("txt file", ".txt")], defaultextension=".txt")
+        rows = self.table.rowCount()
+        columns = self.table.columnCount()
+
+        file_data = []
+        
+        for row in range(rows):
+            for column in range(columns):
+                item = self.table.item(row, column)
+                if item is not None:
+                    value = item.text()
+                    file_data.append(value) if value != '' else file_data.append('+000000')
+
+        with open(file,'w') as write_file:
+            write_file.write('\n'.join(file_data))
+
 
 class ColorInputBox(QDialog):
     def __init__(self, parent=None):
