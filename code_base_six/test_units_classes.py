@@ -237,11 +237,14 @@ def test_branch():
     mem = DataModel(data.get_data())
     #Testing if program exits on infinite branch
     assert Branch(0,mem,testWindow) == False
+    
+    #Testing if program exits when branch is out of range (Current Range 0-249)
+    assert Branch(999,mem,testWindow) == False
 
 
 def test_branchneg():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
-    mem = DataModel(data.get_data(),'-0001')
+    mem = DataModel(data.get_data(),'-000001')
 
     result = BranchNeg(3,mem,testWindow)
 
@@ -271,6 +274,10 @@ def test_branchneg():
     mem = DataModel(data.get_data())
     result = BranchNeg(3,mem,testWindow)
     assert result == False
+    
+    #Testing if program exits when branch is out of range (Current Range 0-249)
+    mem = DataModel(data.get_data(),'-000001')
+    assert BranchNeg(999,mem,testWindow) == False
 
 
 def test_branchzero():
@@ -302,9 +309,13 @@ def test_branchzero():
 
     #Testing if returned branched status is False
     data = DataLoader(100,True,'test_files/unit_tests.txt')
-    mem = DataModel(data.get_data(),'+0001')
+    mem = DataModel(data.get_data(),'+000001')
     result = BranchZero(3,mem,testWindow)
     assert result == False
+    
+    #Testing if program exits when branch is out of range (Current Range 0-249)
+    mem = DataModel(data.get_data(),'+000000')
+    assert BranchZero(999,mem,testWindow) == False
 
 
 def test_halt():
