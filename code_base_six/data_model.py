@@ -25,10 +25,10 @@ class DataModel:
         if memory_location >= 0 and memory_location < self.mem_size:
             if self.validate_value(value):
                 if value < 0:
-                    self._private_MEM[str(memory_location).zfill(2)] = f"-{str(value)[1:].zfill(self._private_value_length)}"
+                    self._private_MEM[str(memory_location).zfill(3)] = f"-{str(value)[1:].zfill(self._private_value_length)}"
                     return True
                 else:
-                    self._private_MEM[str(memory_location).zfill(2)] = f"+{str(value).zfill(self._private_value_length)}"
+                    self._private_MEM[str(memory_location).zfill(3)] = f"+{str(value).zfill(self._private_value_length)}"
                     return True
         return False
     
