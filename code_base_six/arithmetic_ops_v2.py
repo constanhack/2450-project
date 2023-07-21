@@ -10,7 +10,7 @@ def Add(act_nums,mem,window):
         mem.set_acc(ACC)
         return True
     else:
-        window.appendOutput("Overflow Error: Value added exceeded 9999")
+        window.appendOutput("Overflow Error: Value added exceeded 999999")
         return False
 
 def Subtract(act_nums,mem,window):
@@ -22,7 +22,7 @@ def Subtract(act_nums,mem,window):
         mem.set_acc(ACC)
         return True
     else:
-        window.appendOutput("Overflow Error: Value added exceeded 9999/-9999")
+        window.appendOutput("Overflow Error: Value added exceeded 999999/-999999")
         return False
 
 def Divide(act_nums,mem,window):
@@ -49,12 +49,12 @@ def Multiply(act_nums,mem,window):
         mem.set_acc(ACC)
         return True
     else:
-        window.appendOutput("Overflow Error: Value added exceeded 9999/-9999")
+        window.appendOutput("Overflow Error: Value added exceeded 999999/-999999")
         return False
 
 def Check_No_Overflow(ACC,mem):
-    '''Checks for overflow values (Greater than 9999 or less than -9999)'''
-    if ACC > 9999 or ACC < -9999:
+    '''Checks for overflow values (Greater than 999999 or less than -999999)'''
+    if ACC > 999999 or ACC < -999999:
         print("Overflow Error: Result exceeded available space\nHalting Program")
         Halt(mem)
     else:
