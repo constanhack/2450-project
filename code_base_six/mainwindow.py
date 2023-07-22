@@ -10,9 +10,11 @@ from UVSim import Ui_MainWindow
 from PyQt6 .QtGui import QColor
 import tkinter as tk
 from tkinter import filedialog
+from random import randint
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    open_windows = []  # List to store references to all open AnotherWindow instances
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
@@ -21,6 +23,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Clear.clicked.connect(self.clearFilePath)
         self.Start.clicked.connect(self.submitFilePath)
         self.ColorSelect.clicked.connect(self.colorBox)
+        self.NewTab.clicked.connect(self.addNewWindow)
+
+       
+    def addNewWindow(self):
+        new_window = MainWindow()
+        new_window.show()
+        self.open_windows.append(new_window)
 
     def chooseFileButtonClicked(self):
         self.OutputText.clear()
@@ -73,7 +82,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             user_input1, user_input2 = dialog.get_inputs()
 
             # Validate color format
-            if is_valid_hex(user_input1) and is_valid_hex(user_input2):
+            if isValidHex(user_input1) and isValidHex(user_input2):
                 # Attempt to set the main window background color
                 self.setStyleSheet(f"background-color: #{user_input1};")
                 # Attempt to set button and label colors
@@ -91,7 +100,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             else:
                 self.appendOutput("Invalid hexidecimal number.")
 
-def is_valid_hex(color):
+def isValidHex(color):
     try:
         if len(color) == 6:
             int(color, 16)
@@ -205,6 +214,8 @@ class FileEditBox(QDialog):
         self.save_button.clicked.connect(self.file_saver)
         self.layout['main'].addWidget(self.save_button)
 
+        
+
     def handle_submit(self):
         rows = self.table.rowCount()
         columns = self.table.columnCount()
@@ -286,6 +297,7 @@ app = QtWidgets.QApplication(sys.argv)
 
 window = MainWindow()
 window.show()
+MainWindow.open_windows.append(window)  # Add the initial MainWindow to the list
 app.exec()
 
 
