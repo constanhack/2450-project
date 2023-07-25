@@ -131,7 +131,8 @@ class TableWidget(QTableWidget):
                     values = row.split('\t')
                     for indx_col, value in enumerate(values):
                         item = QTableWidgetItem(value)
-                        self.item(row_anchor + indx_row, column_anchor + indx_col).setText(item.text())
+                        item.setBackground(QColor(255,255,255))
+                        self.setItem(row_anchor + indx_row, column_anchor + indx_col, item)
 
         if event.key() == Qt.Key.Key_C and (event.modifiers() & Qt.KeyboardModifier.ControlModifier):
             selection = sorted(self.selectedIndexes())
@@ -239,6 +240,8 @@ class FileEditBox(QDialog):
 
     def file_saver(self):
         file = filedialog.asksaveasfilename(filetypes=[("txt file", ".txt")], defaultextension=".txt")
+        if file == '':
+            return
         rows = self.table.rowCount()
         columns = self.table.columnCount()
 
