@@ -44,15 +44,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.OutputText.clear()
         filepath = self.FilePath.text()
         if filepath:
-            editWindow = FileEditBox(window)
+            editWindow = FileEditBox(self)
             editWindow.setModal(True)
             if editWindow.exec() == QDialog.DialogCode.Accepted:
-                main(DataModel(self._data), window)
+                main(DataModel(self._data), self)
                 self.FilePath.clear()
                 self.appendOutput('Program Complete\nSelect a file to run again')
         else:
             self.OutputText.setText('Please Select A File To start')
-
     
     def enterClicked(self):
         self.Enter.setChecked(True)
@@ -176,7 +175,8 @@ class TableWidget(QTableWidget):
             
 
 class FileEditBox(QDialog):
-    def __init__(self,parent=None):
+    def __init__(self, parent=None):
+        self.parent = parent 
         super().__init__(parent)
         self.window_width, self.window_height = 200, 500
         self.setWindowTitle("Edit File")
@@ -191,7 +191,7 @@ class FileEditBox(QDialog):
         self.layout['main'] = QVBoxLayout()
         self.setLayout(self.layout['main'])
 
-        self.table = TableWidget(250, 1)
+        self.table = TableWidget(250, 1,parent)
         self.table.setHorizontalHeaderLabels(['Values'])
         self.table.setSortingEnabled(False)
         rowLabels = []
@@ -234,7 +234,7 @@ class FileEditBox(QDialog):
                         mem[f'0{row}'] = value if value != '' else '+000000'
                     else:
                         mem[f'{row}']  = value if value != '' else '+000000'
-        window._data = mem
+        self.parent._data = mem
         self.close()
         self.accept()
 
@@ -302,5 +302,3 @@ window = MainWindow()
 window.show()
 MainWindow.open_windows.append(window)  # Add the initial MainWindow to the list
 app.exec()
-
-
