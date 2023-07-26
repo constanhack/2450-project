@@ -15,6 +15,7 @@ from random import randint
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     open_windows = []  # List to store references to all open AnotherWindow instances
+    window_count = 1
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
@@ -24,12 +25,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Start.clicked.connect(self.submitFilePath)
         self.ColorSelect.clicked.connect(self.colorBox)
         self.NewTab.clicked.connect(self.addNewWindow)
+        self.setWindowTitle(f"Window {MainWindow.window_count}")
 
        
     def addNewWindow(self):
         new_window = MainWindow()
         new_window.show()
         self.open_windows.append(new_window)
+        MainWindow.window_count += 1
+        new_window.setWindowTitle(f"Window {MainWindow.window_count}")
 
     def chooseFileButtonClicked(self):
         self.OutputText.clear()
