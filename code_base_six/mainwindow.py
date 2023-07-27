@@ -198,9 +198,19 @@ class FileEditBox(QDialog):
         self.table = TableWidget(250, 1,parent)
         self.table.setHorizontalHeaderLabels(['Values'])
         self.table.setSortingEnabled(False)
+        
+        values = [] if self.parent.checkBox.isChecked() == True else parent._data.get_data().values()
+        if self.parent.checkBox.isChecked() == True:
+            for item in parent._data.get_data().values():
+                if len(item) == 5 and (item[0] == '+' or item[0] == '-'):
+                    converted_item = item[0] + '0' + item[1:3] + '0' + item[3:5]
+                    values.append(converted_item)
+                else:
+                    values.append(item)
+
         rowLabels = []
-        i = 0
-        for item in parent._data.get_data().values():
+        i = 0           
+        for item in values:
              rowLabels.append(str(i))
              tableWidget = QTableWidgetItem(str(item))
              tableWidget.setBackground(QColor(255,255,255))
@@ -218,6 +228,8 @@ class FileEditBox(QDialog):
         self.save_button.setStyleSheet("background-color: white;")
         self.save_button.clicked.connect(self.file_saver)
         self.layout['main'].addWidget(self.save_button)
+        
+        
 
         
 
