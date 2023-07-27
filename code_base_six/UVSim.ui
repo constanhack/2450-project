@@ -661,9 +661,9 @@
    <widget class="QPushButton" name="NewTab">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>260</x>
       <y>590</y>
-      <width>111</width>
+      <width>121</width>
       <height>31</height>
      </rect>
     </property>
@@ -671,14 +671,14 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
-     <string>Open New Tab</string>
+     <string>Open New Window</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>480</y>
+      <x>80</x>
+      <y>590</y>
       <width>141</width>
       <height>20</height>
      </rect>
