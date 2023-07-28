@@ -81,22 +81,7 @@ def test_store():
 
     #Testing if original ACC equal to the value at location '00'
     assert mem.get_acc() == mem.get_mem_value(0)
-
-
-# def test_read(monkeypatch):
-    # data = DataLoader(100,True,'test_files/unit_tests.txt')
-    # mem = DataModel(data.get_data())
-    # #Testing Valid input is returned and matches given input
-    # monkeypatch.setattr('builtins.input', lambda _: '+1111')
-    # Read(0,mem,testWindow)
-    # assert  mem.get_mem_value(0) == 1111
-
-    # #Testing multiple invalid inputs followed by the exit input of 'q'
-    # inputs = iter(['10000', '-12345', 'Hello', 'Quality', 'quit', 'q'])
-    # monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-    # assert Read(0,mem,testWindow) == None
-    # assert mem._private_PC == 'HALT'
-
+    
 
 def test_write(capfd):
     data = DataLoader(100,True,'test_files/unit_tests.txt')

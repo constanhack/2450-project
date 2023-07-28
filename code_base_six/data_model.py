@@ -1,6 +1,5 @@
 class DataModel:
     def __init__(self, data, accumulator = '+000000', pc_location = 0):
-        
         self._private_MEM = data
         self._private_ACC = accumulator
         self._private_PC = pc_location
@@ -8,7 +7,6 @@ class DataModel:
         self.min_value = -999999
         self.max_value = 999999
         self._private_value_length = 6
-        
 
     def get_mem_value(self,memory_location):
         if type(memory_location) != int:
@@ -19,7 +17,6 @@ class DataModel:
             except ValueError:
                 raise ValueError
         raise MemoryError
-
 
     def set_mem_value(self,value, memory_location):
         if memory_location >= 0 and memory_location < self.mem_size:
@@ -67,8 +64,3 @@ class DataModel:
         if int_value >= self.min_value and int_value <= self.max_value:
             return True
         return False
-             
-        
-
-
-

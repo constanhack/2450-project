@@ -31,7 +31,6 @@ def BranchNeg(act_nums,mem,window):
     else:
         window.appendOutput("Infinite Branching Error: Can't branch to same line as branch call")
         return False
-    
 
 def BranchZero(act_nums,mem,window):
     '''Branch to a specific location in memory if the accumulator is zero.'''
@@ -50,7 +49,6 @@ def BranchZero(act_nums,mem,window):
     else:
         window.appendOutput("Infinite Branching Error: Can't branch to same line as branch call")
         return False
-    
 
 def Halt(mem):
     '''Pause the program'''
