@@ -10,9 +10,9 @@ The UVSim contains CPU, register, and main memory.
 An accumulator – a register into which information is put before the UVSim uses it in calculations
 or examines it in various ways.
 All the information in the UVSim is handled in terms of words.
-A word is a signed four-digit decimal number, such as +1234, -5678. 
+A word is a signed four-digit decimal number, such as +123456, -567890. 
 The UVSim is equipped with a 250-word memory, and these words are referenced by their location
-numbers 00, 01, ..., 249. 
+numbers 000, 001, ..., 249. 
 The BasicML program will be loaded into the main memory starting at location 000 before executing. 
 Each instruction written in BasicML occupies one word of the UVSim memory (instruction are signed
 six-digit decimal number). 
