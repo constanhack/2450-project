@@ -41,7 +41,7 @@ def test_get_value():
     assert type(mem.get_mem_value(0)) == int
 
     #Testing if private variable is stored as str
-    assert type(mem._private_MEM['00']) == str
+    assert type(mem._private_MEM['000']) == str
 
     #Testing if correct value is returned at smallest allocated location
     assert mem.get_mem_value(0) == 1
@@ -66,7 +66,7 @@ def test_load():
     assert mem.get_acc() == -2
 
     #Testing if valueError is called when MEM at location is not a valid input
-    int_MEM = DataModel({'00':'abcd'})
+    int_MEM = DataModel({'000':'abcd'})
     with pytest.raises(ValueError):
         Load(0,int_MEM,testWindow)
 
@@ -101,24 +101,24 @@ def test_store():
 def test_write(capfd):
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
-    Write(0,mem,testWindow)
+    Write(000,mem,testWindow)
     output, err = capfd.readouterr()
 
     #Testing if printed word is the expected word
     assert output == '1\n'
 
     #Testing if ValueError is called when MEM at location is not a string
-    int_MEM = DataModel({'00':'abcd'})
+    int_MEM = DataModel({'000':'abcd'})
     with pytest.raises(ValueError):
         Write(0,int_MEM,testWindow)
 
     #Testing if ValueError is called when MEM at location is not a valid input
-    int_MEM = DataModel({'00':'abcd'})
+    int_MEM = DataModel({'000':'abcd'})
     with pytest.raises(ValueError):
         Write(0,int_MEM,testWindow)
 
-    #Testing if SystemExit is called when value of data > 9999 or < -9999
-    len_MEM =  DataModel({'00':'+10000', '01':'-10000'})
+    #Testing if SystemExit is called when value of data > 999999 or < -999999
+    len_MEM =  DataModel({'000':'+1000000', '001':'-1000000'})
     assert Write(0,len_MEM,testWindow) == None
     assert len_MEM._private_PC == 'HALT'
 
@@ -205,16 +205,16 @@ def test_multiply():
 def test_check_no_overflow():
     data = DataLoader(100,True,'test_files/unit_tests.txt')
     mem = DataModel(data.get_data())
-    #Testing if valid number in the range of -9999 and 9999 returns true
-    assert Check_No_Overflow(9999,mem) == True
-    assert Check_No_Overflow(-9999,mem) == True
+    #Testing if valid number in the range of -999999 and 999999 returns true
+    assert Check_No_Overflow(999999,mem) == True
+    assert Check_No_Overflow(-999999,mem) == True
     assert Check_No_Overflow(0,mem) == True
 
-    #Testing if systemexit is called when range is < -9999 or > 9999
-    assert Check_No_Overflow(10000,mem) == None
+    #Testing if systemexit is called when range is < -999999 or > 999999
+    assert Check_No_Overflow(1000000,mem) == None
     assert mem._private_PC == 'HALT'
     
-    assert Check_No_Overflow(-10000,mem) == None
+    assert Check_No_Overflow(-1000000,mem) == None
     assert mem._private_PC == 'HALT'
 
 
