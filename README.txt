@@ -27,7 +27,7 @@ to be performed.
 
 BasicML Language
 
-The first two digits of each BasicML instruction are the operation code specifying the operation
+The first three digits of each BasicML instruction are the operation code specifying the operation
 to be performed.
 
 BasicML vocabulary defined as follows:
