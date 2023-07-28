@@ -37,6 +37,3 @@ class DataLoader:
     
     def get_file_path(self):
         return self._private_data_file_path
-    
-  
-    

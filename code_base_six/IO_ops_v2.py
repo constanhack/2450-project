@@ -23,7 +23,6 @@ class InputDialog(QDialog):
         layout.addWidget(self.confirm_button)
         self.setLayout(layout)
         
-
     def get_input(self):
         return self.input_text.text()
 
@@ -87,7 +86,6 @@ def Read(act_nums, mem, window):
         else:
             window.appendOutput("Error, characters must be 6 digits. Enter 'q' to exit or try again.")
             Read(act_nums, mem, window)
-    
         
         if int(user_input) >= 0:
             window.appendOutput(f'Input of {user_input} has been read into mem location {act_nums}')

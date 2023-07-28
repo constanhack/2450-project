@@ -12,7 +12,6 @@ import tkinter as tk
 from tkinter import filedialog
 from random import randint
 
-
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     open_windows = []  # List to store references to all open AnotherWindow instances
     window_count = 1
@@ -27,7 +26,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.NewTab.clicked.connect(self.addNewWindow)
         self.setWindowTitle(f"Window {MainWindow.window_count}")
 
-       
     def addNewWindow(self):
         new_window = MainWindow()
         new_window.show()
@@ -62,7 +60,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         user_input = self.getInput()
         return user_input
 
-
     def displayOutput(self,value):
         self.OutputText.clear()
         self.OutputText.setText(value)
@@ -73,8 +70,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def getInput(self):
         input = self.InputText.text()
         return input
-    
-    
 
     def colorBox(self):
         """Allows the user to enter a color."""
@@ -111,8 +106,6 @@ def isValidHex(color):
         return False
     except ValueError:
         return False
-
-
 
 class TableWidget(QTableWidget):
     def __init__(self, rows, columns, parent=None):
@@ -176,8 +169,6 @@ class TableWidget(QTableWidget):
 
             QApplication.clipboard().setText(copy_text)
 
-            
-
 class FileEditBox(QDialog):
     def __init__(self, parent=None):
         self.parent = parent 
@@ -229,10 +220,6 @@ class FileEditBox(QDialog):
         self.save_button.clicked.connect(self.file_saver)
         self.layout['main'].addWidget(self.save_button)
         
-        
-
-        
-
     def handle_submit(self):
         rows = self.table.rowCount()
         columns = self.table.columnCount()
@@ -273,7 +260,6 @@ class FileEditBox(QDialog):
         with open(file,'w') as write_file:
             write_file.write('\n'.join(file_data))
 
-
 class ColorInputBox(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -281,7 +267,6 @@ class ColorInputBox(QDialog):
 
         self.instruction_label = QLabel("Please enter colors in Hex:")
         self.instruction_label.setStyleSheet("color: white;")
-
 
         self.input_label1 = QLabel("Primary Color:")
         self.input_text1 = QLineEdit()
@@ -310,7 +295,6 @@ class ColorInputBox(QDialog):
 
     def get_inputs(self):
         return self.input_text1.text(), self.input_text2.text()
-
 
 app = QtWidgets.QApplication(sys.argv)
 
